@@ -1,40 +1,36 @@
-<script>
-async function send() {
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Monglish AI</title>
+</head>
+<body>
+  <h1>🤖 Monglish AI</h1>
 
-  const msg = document.getElementById("msg").value;
+  <input id="msg" placeholder="Ask Monglish AI..." />
+  <button onclick="send()">Send</button>
 
-  if (!msg.trim()) return;
+  <div id="out"></div>
 
-  document.getElementById("out").innerHTML = "🤖 Monglish AI is thinking...";
+  <script>
+  async function send() {
+    const msg = document.getElementById("msg").value;
+    if (!msg.trim()) return;
 
-  try {
+    document.getElementById("out").innerHTML = "🤖 Monglish AI is thinking...";
 
-    const response = await fetch("https://monglish-ai-backend.onrender.com/chat", {
+    try {
+      const response = await fetch("https://monglish-ai-backend.onrender.com/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: msg })
+      });
 
-      method: "POST",
-
-      headers: {
-        "Content-Type": "application/json"
-      },
-
-      body: JSON.stringify({
-        message: msg
-      })
-
-    });
-
-    const data = await response.json();
-
-    document.getElementById("out").innerHTML = data.reply;
-
-  } catch (err) {
-
-    document.getElementById("out").innerHTML =
-      "❌ Cannot connect to Monglish AI.";
-
-    console.error(err);
-
+      const data = await response.json();
+      document.getElementById("out").innerHTML = data.reply;
+    } catch (err) {
+      document.getElementById("out").innerHTML = "❌ Cannot connect to Monglish AI.";
+    }
   }
-
-}
-</script>
+  </script>
+</body>
+</html>
