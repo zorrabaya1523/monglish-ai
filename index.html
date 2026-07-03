@@ -1,0 +1,15 @@
+<h1>Monglish AI Chat</h1>
+
+<input id="msg" placeholder="Type here">
+<button onclick="send()">Send</button>
+
+<p id="out"></p>
+
+<script>
+function send(){
+  let msg = document.getElementById("msg").value;
+
+  document.getElementById("out").innerText =
+    "AI: I got your message → " + msg;
+}
+</script>
