@@ -35,7 +35,11 @@ app.post("/chat", async (req, res) => {
     });
 
     const data = await response.json();
-    const reply = data.choices?.[0]?.message?.content || "Sorry, I could not generate a reply.";
+    if (data.error) {
+  return res.json({ reply: "OpenAI error: " + data.error.message });
+}
+
+const reply = data.choices?.[0]?.message?.content || "No AI reply received.";
 
     res.json({ reply });
   } catch (error) {
