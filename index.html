@@ -1,15 +1,40 @@
-<h1>Monglish AI Chat</h1>
-
-<input id="msg" placeholder="Type here">
-<button onclick="send()">Send</button>
-
-<p id="out"></p>
-
 <script>
-function send(){
-  let msg = document.getElementById("msg").value;
+async function send() {
 
-  document.getElementById("out").innerText =
-    "AI: I got your message → " + msg;
+  const msg = document.getElementById("msg").value;
+
+  if (!msg.trim()) return;
+
+  document.getElementById("out").innerHTML = "🤖 Monglish AI is thinking...";
+
+  try {
+
+    const response = await fetch("https://monglish-ai-backend.onrender.com/chat", {
+
+      method: "POST",
+
+      headers: {
+        "Content-Type": "application/json"
+      },
+
+      body: JSON.stringify({
+        message: msg
+      })
+
+    });
+
+    const data = await response.json();
+
+    document.getElementById("out").innerHTML = data.reply;
+
+  } catch (err) {
+
+    document.getElementById("out").innerHTML =
+      "❌ Cannot connect to Monglish AI.";
+
+    console.error(err);
+
+  }
+
 }
 </script>
